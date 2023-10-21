@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "elasticsearch.orm.mapper-locations",
+      "description": "mapper xml locations split by ','.",
+      "type": "java.lang.String"
+    }
+  ]
+}

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper namespace="org.example.elasticsearch.orm.mapper.UserMapper">
+
+    <query id="getUser" index="user" resultType="java.util.Map">
+        <![CDATA[
+        {
+            "query": {
+                "bool": {
+                    "must": [
+                        <@trim>
+                            <#if username?? && username != ''>{"term":{"username":{"value":"${username}"}}},</#if>
+                            <#if password?? && password != ''>{"term":{"password":{"value": "${password}"}}},</#if>
+                        </@trim>
+                    ]
+                }
+            }
+        }
+        ]]>
+    </query>
+
+    <query id="getUsersByMap" index="user" resultType="org.example.elasticsearch.orm.model.User">
+        <![CDATA[
+        {
+            "query": {
+                "bool": {
+                    "must": [
+                        <@trim>
+                            <#if username?? && username != ''>{"term":{"username":{"value":"${username}"}}},</#if>
+                            <#if password?? && password != ''>{"term":{"password":{"value": "${password}"}}},</#if>
+                        </@trim>
+                    ]
+                }
+            }
+        }
+        ]]>
+    </query>
+
+    <query id="getUsers" index="user" resultType="org.example.elasticsearch.orm.model.User">
+        <![CDATA[
+        {
+            "query": {
+                "bool": {
+                    "must": [
+                        <@trim>
+                            <#if username?? && username != ''>{"term":{"username":{"value":"${username}"}}},</#if>
+                            <#if password?? && password != ''>{"term":{"password":{"value": "${password}"}}},</#if>
+                        </@trim>
+                    ]
+                }
+            }
+        }
+        ]]>
+    </query>
+
+    <count id="countUser" index="user" resultType="java.lang.Integer">
+        <![CDATA[
+        {
+            "query": {
+                "bool": {
+                    "must": [
+                        <@trim>
+                            <#if username?? && username != ''>{"term":{"username":{"value":"${username}"}}},</#if>
+                            <#if password?? && password != ''>{"term":{"password":{"value": "${password}"}}},</#if>
+                        </@trim>
+                    ]
+                }
+            }
+        }
+        ]]>
+    </count>
+
+    <aggregation id="aggregationByGender" index="user">
+        <![CDATA[
+        {
+          "query": {
+            "match_all": {}
+          },
+          "aggs": {
+            "gender": {
+              "terms": {
+                "field": "gender"
+              },
+              "aggs": {
+                "id": {
+                  "terms": {
+                    "field": "id",
+                    "size": 10000
+                  },
+                  "aggs": {
+                    "username": {
+                      "terms": {
+                        "field": "username"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        ]]>
+    </aggregation>
+
+</mapper>

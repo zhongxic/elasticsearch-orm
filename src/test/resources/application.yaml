@@ -1,0 +1,3 @@
+elasticsearch:
+  orm:
+    mapper-locations: classpath:mapper/*.xml
